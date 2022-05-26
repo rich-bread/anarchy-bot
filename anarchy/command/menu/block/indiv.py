@@ -28,7 +28,7 @@ async def general(bot,ctx,channel):
     #-------------------------
     if r == emoji_list[0]: id = key = 'all'
     elif r == emoji_list[1]:
-        indiv_data = open_json('./con/menu/block/data/indiv.json')
+        indiv_data = open_json('./command/menu/block/data/indiv.json')
 
         reactions = [i['emoji'] for i in indiv_data]
         descriptions = [f"{i['emoji']} {i['key']}" for i in indiv_data]
@@ -69,7 +69,7 @@ async def options(bot, channel, author, user, item):
 
     data = dict() #送信用のデータを用意
 
-    indiv_data = open_json('./con/menu/block/data/indiv.json')
+    indiv_data = open_json('./command/menu/block/data/indiv.json')
     emoji_order = open_json('./mutual/data/order.json')
 
     for id in proc:

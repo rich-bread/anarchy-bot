@@ -12,7 +12,7 @@ async def general(bot, ctx):
     frontdesk = await create_frontdesk(ctx, role)
     #frontdesk = ctx.channel
 
-    menu_data = open_json('./con/menu/menu.json')
+    menu_data = open_json('./command/menu/menu.json')
 
     emoji_list = [i['emoji'] for i in menu_data if i['implement'] == True]
     description = [f"{i['emoji']} {i['name']}" for i in menu_data if i['implement'] == True]

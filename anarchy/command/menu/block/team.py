@@ -21,7 +21,7 @@ async def create_team(bot, channel, author, item, additional=True):
 
     data = dict()
 
-    team = open_json('./con/menu/block/data/team.json')
+    team = open_json('./command/menu/block/data/team.json')
     emojis = open_json('./mutual/data/order.json')
 
     for id in proc:
