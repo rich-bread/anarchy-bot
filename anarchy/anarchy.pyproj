@@ -23,13 +23,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="con\menu\block\continuous.py" />
-    <Compile Include="con\menu\block\indiv.py" />
-    <Compile Include="con\menu\block\menu_common.py" />
-    <Compile Include="con\menu\block\regis.py" />
-    <Compile Include="con\menu\block\team.py" />
-    <Compile Include="con\menu\block\__init__.py" />
-    <Compile Include="con\menu\menu.py" />
+    <Compile Include="command\menu\block\continuous.py" />
+    <Compile Include="command\menu\block\indiv.py" />
+    <Compile Include="command\menu\block\menu_common.py" />
+    <Compile Include="command\menu\block\regis.py" />
+    <Compile Include="command\menu\block\team.py" />
+    <Compile Include="command\menu\block\__init__.py" />
+    <Compile Include="command\menu\menu.py" />
     <Compile Include="mod\discord_module.py">
       <SubType>Code</SubType>
     </Compile>
@@ -45,17 +45,17 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="appsettings.json" />
-    <Content Include="con\menu\block\data\indiv.json" />
-    <Content Include="con\menu\block\data\team.json" />
-    <Content Include="con\menu\menu.json" />
+    <Content Include="command\menu\block\data\indiv.json" />
+    <Content Include="command\menu\block\data\team.json" />
+    <Content Include="command\menu\menu.json" />
     <Content Include="mutual\data\order.json" />
     <Content Include="mutual\data\yon.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="con\" />
-    <Folder Include="con\menu\" />
-    <Folder Include="con\menu\block\" />
-    <Folder Include="con\menu\block\data\" />
+    <Folder Include="command\" />
+    <Folder Include="command\menu\" />
+    <Folder Include="command\menu\block\" />
+    <Folder Include="command\menu\block\data\" />
     <Folder Include="mod\" />
     <Folder Include="mutual\" />
     <Folder Include="mutual\data\" />

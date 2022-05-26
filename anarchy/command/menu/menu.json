@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "メンバー情報登録・変更",
+        "emoji": "1⃣",
+        "implement": true
+    },
+    {
+        "id": 2,
+        "name": "チーム情報登録・変更",
+        "emoji": "2⃣",
+        "implement": false
+    },
+    {
+        "id": 3,
+        "name": "匿名質問",
+        "emoji": "3⃣",
+        "implement": false
+    },
+    {
+        "id": 4,
+        "name": "継続受付",
+        "emoji": "4⃣",
+        "implement": true
+    },
+    {
+        "id": 5,
+        "name": "リーダー挨拶",
+        "emoji": "5⃣",
+        "implement": false
+    },
+    {
+        "id": 0,
+        "name": "終了",
+        "emoji": "🚫",
+        "implement": true
+    }
+]
