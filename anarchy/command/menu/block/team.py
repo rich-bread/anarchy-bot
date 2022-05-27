@@ -3,9 +3,9 @@ import discord
 from mod.json_module import open_json
 import mod.discord_module as dismod
 
-from con.menu.block.menu_common import check_message, check_reaction, get_user, id_fromMention
+from command.menu.block.menu_common import check_message, check_reaction, get_user, id_fromMention
 
-from con.menu.block import regis, indiv
+from command.menu.block import regis, indiv
 
 async def team_main(bot, ctx, channel):
     emoji_list = ["1️⃣", "2️⃣", "🚫"]

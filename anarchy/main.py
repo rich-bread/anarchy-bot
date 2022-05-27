@@ -21,7 +21,7 @@ bot = commands.Bot(intents=intents, command_prefix=prefix)
 async def on_ready():
     print("Login.")
 
-import con.menu.menu as menu
+import command.menu.menu as menu
 @bot.command(name="menu")
 async def menu_console(ctx):
     await menu.general(bot, ctx)

@@ -1,8 +1,8 @@
 import discord
 
-from con.menu.block import regis
+from command.menu.block import regis
 import mod.discord_module as discord_module
-from con.menu.block.menu_common import check_message, check_reaction, verify_team
+from command.menu.block.menu_common import check_message, check_reaction, verify_team
 from mod.json_module import open_json
 
 import asyncio

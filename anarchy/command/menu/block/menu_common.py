@@ -6,7 +6,7 @@ import mod.discord_module as discord_module
 
 from mod.json_module import open_json
 
-import con.menu.block.regis as regis
+import command.menu.block.regis as regis
 
 #「user」と「author」の使い分け
 #userは情報変更等の対象 authorはコマンドを実行している本人

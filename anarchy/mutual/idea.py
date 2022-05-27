@@ -1,6 +1,6 @@
 import discord
 
-from con.menu.block import regis
+from command.menu.block import regis
 import mod.discord_module as dismod
 import asyncio
 

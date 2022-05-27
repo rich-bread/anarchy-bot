@@ -2,10 +2,10 @@ import discord
 import asyncio
 
 from mod.json_module import open_json
-from con.menu.block.menu_common import check_reaction
+from command.menu.block.menu_common import check_reaction
 
 from mod.discord_module import default
-from con.menu.block import indiv, continuous
+from command.menu.block import indiv, continuous
 
 async def general(bot, ctx):
     role = get_role(ctx)

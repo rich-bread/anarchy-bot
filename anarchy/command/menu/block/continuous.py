@@ -1,11 +1,11 @@
 import discord
 
-from con.menu.block import regis, team
+from command.menu.block import regis, team
 import mod.discord_module as dismod
 
 from mod.json_module import open_json
 
-from con.menu.block.menu_common import check_message, check_reaction
+from command.menu.block.menu_common import check_message, check_reaction
 
 async def continued_participation(bot, ctx, channel):
 
