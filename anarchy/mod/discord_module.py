@@ -1,8 +1,8 @@
 import discord
 
 #通常
-def default(title, content):
-    embed=discord.Embed(title=title,description=content)
+def default(title, content, color=0):
+    embed=discord.Embed(title=title,description=content, color=color)
     return embed
 
 #完了
@@ -22,3 +22,10 @@ def waiting(content):
     embed=discord.Embed(description=content,color=0x73A1FB)
     embed.set_author(name='待機中', icon_url='https://cdn-icons-png.flaticon.com/512/248/248958.png')
     return embed
+
+
+
+#DMを作成
+async def create_dm(author):
+    channel = await author.create_dm()
+    return channel

@@ -26,4 +26,39 @@ import command.menu.menu as menu
 async def menu_console(ctx):
     await menu.general(bot, ctx)
 
+
+import command.menu.block as menublock
+import mod.discord_module as dismod
+#一時的コマンド
+@bot.command(name="giveleader")
+async def give_leaderRole(ctx):
+    leaderId_list = open_json('./s13_leaderlist.json')
+
+    for id in leaderId_list:
+        try:
+            user = discord.utils.get(ctx.guild.members, id=id)
+            role = discord.utils.get(ctx.guild.roles, name='リーダー')
+            await user.remove_roles(role)
+        except Exception as e:
+            await ctx.send(embed=dismod.error(e))
+
+        try:
+            await user.add_roles(role)
+        except Exception as e:
+            await ctx.send(embed=dismod.error(e))
+        else:
+            await ctx.send(embed=dismod.success(f"Added leader role to {user}."))
+
+import mutual.log as log
+bot.add_cog(log.send(bot))
+
+
+@bot.command()
+async def errorcheck(ctx):
+    try:
+        raise ZeroDivisionError
+    except Exception as e:
+        await log.send().error(e)
+            
+
 bot.run(token)

@@ -8,6 +8,9 @@ from mod.discord_module import default
 from command.menu.block import indiv, continuous
 
 async def general(bot, ctx):
+
+    author = ctx.author #コマンド実行者
+
     role = get_role(ctx)
     frontdesk = await create_frontdesk(ctx, role)
     #frontdesk = ctx.channel
@@ -21,7 +24,7 @@ async def general(bot, ctx):
 
     count=0
     while count < 1:
-        q_menu = await frontdesk.send(embed=default("メニュー", '\r\n'.join(description)))
+        q_menu = await frontdesk.send(embed=default("メニュー", '\r\n'.join(description), 0xF79428))
         for i in emoji_list: await q_menu.add_reaction(i)
 
         reaction = await check_reaction(bot, frontdesk, ctx.author, emoji_list, True)
@@ -32,14 +35,15 @@ async def general(bot, ctx):
             count+=1
 
         if reaction == "1⃣": #メンバー情報登録・変更
-            await indiv.general(bot, ctx, frontdesk)
+            await indiv.general(bot, frontdesk, author)
         elif reaction == "2⃣": #チーム情報登録・変更
             pass
         elif reaction == "3⃣":
             pass
         elif reaction == "4⃣": #継続受付
             await continuous.continued_participation(bot, ctx, frontdesk)
-
+        
+        await asyncio.sleep(3)
         continue
     
     await ctx.author.remove_roles(role)

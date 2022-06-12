@@ -1,43 +1,51 @@
 import discord
 
-from command.menu.block import regis
-import mod.discord_module as discord_module
-from command.menu.block.menu_common import check_message, check_reaction, verify_team
 from mod.json_module import open_json
+import mod.discord_module as dismod
 
-import asyncio
+from command.menu.block import regis
+from command.menu.block.menu_common import await_message, await_reaction, verify_team, presence_userdata
 
-async def general(bot,ctx,channel):
 
-    author = ctx.author
+async def general(bot, channel, author):
 
-    emoji_list = ["1⃣", "2⃣", "🚫"]
-    embed = discord_module.default("メンバー情報登録・更新", ":one: 登録 \r\n :two: 更新 \r\n :no_entry_sign: 終了")
-    msg = await channel.send(embed=embed)
+    try:
+        pass
+    except Exception as e:
+        pass
+        
 
-    for e in emoji_list: await msg.add_reaction(e)
+    menu_data = open_json('./command/menu/menu.json')
+    emoji_list = [i['emoji']  for i in menu_data[0]['option']]
+    title = menu_data[0]['name']
+    descriptions = '\r\n'.join([f"{i['emoji']} {i['name']}" for i in menu_data[0]['option']])
 
-    r = await check_reaction(bot, channel, author, emoji_list, True)
-
+    r = await await_reaction(bot, channel, author, emoji_list, title, descriptions, True)
     if r == None: return #リアクション待機エラー処理用
 
-    user = await verify_team(bot, channel, author) #本人確認処理(戻り値:User)
-
-    if user == None: return False #チーム確認失敗時エラー処理用
+    #変更対象確認処理
+    user = await verify_team(bot, channel, author)
+    if user == None: return #チーム確認失敗時エラー処理用
 
     #-------------------------
+    #「登録」の場合
     if r == emoji_list[0]: id = key = 'all'
-    elif r == emoji_list[1]:
-        indiv_data = open_json('./command/menu/block/data/indiv.json')
 
+    #「更新」の場合
+    elif r == emoji_list[1]:
+
+        #ユーザデータがデータベースに存在するか確認
+        exists = await presence_userdata(user.id)
+        if exists == False:
+            await channel.send(embed=dismod.error("変更対象のユーザデータがデータベース上で確認できませんでした。新規登録は選択肢「1⃣ 登録」よりお願いいたします"))
+            return
+
+        indiv_data = open_json('./command/menu/block/data/indiv.json')
         reactions = [i['emoji'] for i in indiv_data]
         descriptions = [f"{i['emoji']} {i['key']}" for i in indiv_data]
 
-        option_menu = await channel.send(embed=discord_module.default("編集項目選択", '\r\n'.join(descriptions)))
-        for r in reactions: await option_menu.add_reaction(r)
-
-        reaction = await check_reaction(bot, channel, author, reactions)
-        if reaction == None: return False #リアクション待機エラー処理用
+        reaction = await await_reaction(bot, channel, author, reactions, "編集項目選択", '\r\n'.join(descriptions))
+        if reaction == None: return #リアクション待機エラー処理用
 
         for a in indiv_data:
             if reaction == a['emoji']:
@@ -49,16 +57,17 @@ async def general(bot,ctx,channel):
                 break
     #------------------------
 
+    #データ整形、データベースに登録
     data = await options(bot, channel, author, user, id)
-
     output = await regis.post_db(data, 'indiv', key)
 
+    #ステータスコードより、リクエストを確認
     if output.status_code == 200:
-        await channel.send(embed=discord_module.success("正常に登録しました"))
+        await channel.send(embed=dismod.success("正常に登録しました"))
+        dm = await dismod.create_dm(author)
+        await dm.send(embed=dismod.success(f"{user}の情報を正常に登録しました。"))
     else:
-        await channel.send(embed=discord_module.error("エラーが発生しました。"))
-
-    await asyncio.sleep(3)
+        await channel.send(embed=dismod.error("エラーが発生しました。"))
 
 
 async def options(bot, channel, author, user, item):
@@ -83,8 +92,7 @@ async def options(bot, channel, author, user, item):
 
                 #メッセージで受け取り
                 if i['option'] == None:
-                    question = await channel.send(embed=discord_module.default('質問', i['question']))
-                    answer = (await check_message(bot, channel, author)).content
+                    answer = (await await_message(bot, channel, author, '質問', i['question']))
 
                     if i['id'] == 2 and "なし" in answer: answer = '' #フレンドコード記入欄に「なし」と記載された場合
 
@@ -94,12 +102,9 @@ async def options(bot, channel, author, user, item):
                     reactions = [r for (o, r) in zip(i['option'], emoji_order)]
                     descriptions = [f"{r} {o}" for (o, r) in zip(i['option'], emoji_order)]
 
-                    question = await channel.send(embed=discord_module.default('質問', i['question']+'\r\n'+'\r\n'.join(descriptions)))
+                    reaction = await await_reaction(bot, channel, author, reactions, '質問', i['question']+'\r\n'+'\r\n'.join(descriptions))
 
-                    for r in reactions: await question.add_reaction(r)
-
-                    reaction = await check_reaction(bot, channel, author, reactions)
-                    if reaction == None: return reaction #リアクション待機エラー処理用
+                    if reaction == None: return #リアクション待機エラー処理用
 
                     for a in options:
                         if reaction == a['emoji']: 
